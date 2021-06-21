@@ -1,8 +1,10 @@
 package com.irfanshukri203.viewpagertutorial
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -15,9 +17,22 @@ class MainActivity : AppCompatActivity() {
 
         viewPager.adapter = viewImageAdapter
 
-        viewPager.orientation = ViewPager2.ORIENTATION_VERTICAL
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = "Cat #${position + 1}"
+        }.attach()
 
-        viewPager.fakeDragBy(-10F)
-        viewPager.endFakeDrag()
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                Toast.makeText(this@MainActivity, "Selected ${tab?.text}", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                Toast.makeText(this@MainActivity, "Unselected ${tab?.text}", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                Toast.makeText(this@MainActivity, "Reselected ${tab?.text}", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 }
